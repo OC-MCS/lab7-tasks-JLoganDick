@@ -16,21 +16,9 @@ int main()
 
 	for (int i = 0; i < 1000000; i++) {
 		d6.roll();
-		value = d6.getValue();
-		switch (value) {
-			case 1: dR6[1]++;
-				break;
-			case 2:dR6[2]++;
-				break;
-			case 3:dR6[3]++;
-				break;
-			case 4:dR6[4]++;
-				break;
-			case 5:dR6[5]++;
-				break;
-			case 6:dR6[6]++;
-				break;
-		}
+		dR6[d6.getValue()];
+
+
 	}
 
 	displayPct(dR6, 6);
