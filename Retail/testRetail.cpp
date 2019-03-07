@@ -2,73 +2,44 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <iomanip>
 #include "RetailItem.h"
 using namespace std;
 // code to test your RetailItem class goes here
 
-bool parseInt(string sval, int& val);
-bool parseDouble(string sval, double& val);
 void loadItems(vector<RetailItem>& Items);
 
 int main()
 {
 	vector<RetailItem> Stock;
+	loadItems(Stock);
 
+	cout << "Description \t" << "Price \t\t" << "On Hand \t" << "Value" << endl;
+	cout << "-------------------------------------------------" << endl;
+	for (int i = 0; i < Stock.size(); i++) {
+		cout << setw(8) << left << Stock[i].getDescription() << "\t" << setw(7) << right << Stock[i].getPrice() << "\t" << setw(10) << right << Stock[i].getUnitsOnHand() << "\t" << setw(10) << right << Stock[i].getStockValue() << endl;
+	}
 
 	return 0;
 }
 
 void loadItems(vector<RetailItem>& Items)
 {
-	string itemNumStr, desc, unitsStr, priceStr;
-	int itemNum = 0, units = 0;
-	double price = 0;
-
 	ifstream data;
+
+	string desc;
+	string unitsStr;
+	string priceStr;
+
+	
 	data.open("Book1.csv");
-	while (getline(data, itemNumStr, ','))
+	while (getline(data, desc, ','))
 	{
-		getline(data, desc, ',');
 		getline(data, unitsStr, ',');
-		
-			data >> priceStr;
-		data.ignore(80, '\n');
+		getline(data, priceStr, '\n');
 
-		parseInt(unitsStr, units);
-		parseDouble(priceStr, price);
-
-		RetailItem item(desc, units, price);
+		RetailItem item(desc, stoi(unitsStr), stod(priceStr));
 		Items.push_back(item);
 	}
 	data.close();
-}bool parseInt(string sval, int& val)
-{
-	int num;
-	bool success = true;
-	try
-	{
-		num = stoi(sval);   // or use stof for string-to-float
-		val = num;
-	}
-	catch (const std::exception&)
-	{
-		success = false;
-	}
-	return success;
-}
-
-bool parseDouble(string sval, double& val)
-{
-	double num;
-	bool success = true;
-	try
-	{
-		num = stod(sval);   // or use stof for string-to-float
-		val = num;
-	}
-	catch (const std::exception&)
-	{
-		success = false;
-	}
-	return success;
 }
